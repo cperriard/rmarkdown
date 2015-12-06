@@ -6,6 +6,7 @@
 #'
 #' @param fig_crop \code{TRUE} to automatically apply the \code{pdfcrop} utility
 #'   (if available) to pdf figures
+#' @param fig_embed \code{TRUE} to automatically embed fonts in pdf plots
 #' @param dev Graphics device to use for figure output (defaults to pdf)
 #' @param highlight Syntax highlighting style. Supported styles include
 #'   "default", "tango", "pygments", "kate", "monochrome", "espresso",
@@ -86,6 +87,7 @@ pdf_document <- function(toc = FALSE,
                          fig_width = 6.5,
                          fig_height = 4.5,
                          fig_crop = TRUE,
+                         fig_embed = TRUE,
                          fig_caption = FALSE,
                          dev = 'pdf',
                          highlight = "default",
@@ -182,7 +184,7 @@ pdf_document <- function(toc = FALSE,
 
   # return format
   output_format(
-    knitr = knitr_options_pdf(fig_width, fig_height, fig_crop, dev),
+    knitr = knitr_options_pdf(fig_width, fig_height, fig_crop, fig_embed, dev),
     pandoc = pandoc_options(to = "latex",
                             from = from_rmarkdown(fig_caption, md_extensions),
                             args = args,

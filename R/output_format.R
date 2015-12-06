@@ -166,7 +166,7 @@ knitr_options <- function(opts_knit = NULL,
 #' @seealso \link{knitr_options}, \link{output_format}
 #'
 #' @export
-knitr_options_pdf <- function(fig_width, fig_height, fig_crop, dev = 'pdf') {
+knitr_options_pdf <- function(fig_width, fig_height, fig_crop, fig_embed, dev = 'pdf') {
 
   # default options
   opts_knit <- NULL
@@ -188,6 +188,13 @@ knitr_options_pdf <- function(fig_width, fig_height, fig_crop, dev = 'pdf') {
   if (crop) {
     knit_hooks = list(crop = knitr::hook_pdfcrop)
     opts_chunk$crop = TRUE
+  }
+  
+  # apply embedding fonts if requested and ghostscript is available
+  fig_embed <- fig_embed && nzchar(tools::find_gs_cmd())
+  if (fig_embed) {
+    knit_hooks <- append(knit_hooks, list(embed = knitr::hook_embed_fonts))
+    opts_chunk$embed <- TRUE
   }
 
   # return options
